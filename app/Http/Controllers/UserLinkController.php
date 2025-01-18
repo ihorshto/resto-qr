@@ -68,8 +68,8 @@ class UserLinkController extends Controller
         if ($temporaryImageName) {
             try {
                 $imagePath = $this->fileUploadService->saveFile($request->input('file_name'), 'links_images');
-                if ($link->content) {
-                    Storage::disk('public')->delete($link->content);
+                if ($link->image_path) {
+                    Storage::disk('public')->delete($link->image_path);
                 }
             } catch (Exception $e) {
                 return redirect()->back()->withErrors($e->getMessage());
@@ -88,9 +88,14 @@ class UserLinkController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(Request $request, UserLink $link)
     {
-        // Delete a specific QR code
+        if ($link->image_path) {
+            Storage::disk('public')->delete($link->image_path);
+        }
+        $link->delete();
+
+        return redirect()->route('links.index')->with('success', 'Lien supprimé avec succès !');
     }
 
     /**
