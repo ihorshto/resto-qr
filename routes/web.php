@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserLinkController;
+use App\Http\Controllers\UserQrCodeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,5 +22,10 @@ Route::middleware('auth')->group(function () {
 Route::get('/qrcode', function () {
     return view('qrcode.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::resource('links', UserLinkController::class);
+
+Route::resource('qrcode', UserQrCodeController::class);
+Route::post('links/uploadImage', [UserLinkController::class, 'uploadImage'])->name('links.uploadImage');
 
 require __DIR__.'/auth.php';
