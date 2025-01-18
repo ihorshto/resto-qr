@@ -13,16 +13,18 @@ class InputLabelBox extends Component
     public $name;
     public $value;
     public $type;
+    public $required;
     public $placeholder;
     public $classes;
 
-    public function __construct($labelTitle, $id, $name, $value, $type, $placeholder, $classes)
+    public function __construct($labelTitle, $id, $name, $value, $type, $required, $placeholder, $classes)
     {
         $this->labelTitle = $labelTitle;
         $this->id = $id;
         $this->name = $name;
         $this->value = $value;
         $this->type = $type;
+        $this->required = $required;
         $this->placeholder = $placeholder;
         $this->classes = $classes;
     }

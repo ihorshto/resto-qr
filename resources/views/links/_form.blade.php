@@ -22,6 +22,7 @@
         name="description"
         :value="old('description', $link->description ?? '')"
         type="text"
+        :required="true"
         placeholder="Description"
         classes=""/>
 
@@ -29,8 +30,9 @@
         labelTitle="Lien"
         id="link_path"
         name="link_path"
-        :value="old('link', $link->link_path ?? '')"
-        type="text"
+        :value="old('link_path', $link->link_path ?? '')"
+        type="url"
+        :required="true"
         placeholder="Lien"
         classes=""/>
 
