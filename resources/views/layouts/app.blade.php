@@ -16,21 +16,17 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+            <!-- ========== HEADER ========== -->
+            @include('partials.header')
+            <!-- ========== END HEADER ========== -->
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+            <!-- ========== MAIN SIDEBAR ========== -->
+            @include('partials.sidebar')
+            <!-- ========== END MAIN SIDEBAR ========== -->
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            <!-- ========== MAIN CONTENT ========== -->
+            @include('partials.main')
+            <!-- ========== END MAIN CONTENT ========== -->
         </div>
     </body>
 </html>
