@@ -7,6 +7,7 @@ use App\Models\UserLink;
 use App\Services\FileUploadService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserLinkController extends Controller
@@ -36,6 +37,7 @@ class UserLinkController extends Controller
 
         try {
             $imagePath = $this->fileUploadService->saveFile($request->input('file_name'), 'links_images');
+
             UserLink::create([
                 'user_id' => $request->user()->id,
                 'description' => $validatedData['description'],
@@ -49,51 +51,44 @@ class UserLinkController extends Controller
         return redirect()->route('links.index')->with('success', 'Lien créé avec succès !');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public
-    function show($id)
+    public function edit(UserLink $link)
     {
-        // Display a specific QR code
+        return view('links.edit', compact('link'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public
-    function edit($id)
+
+    public function update(LinkUpdateRequest $request, UserLink $link)
     {
-        // Show form for editing a QR code
+        $validatedData = $request->validated();
+
+        $temporaryImageName = $request->input('file_name');
+
+
+        // Check if the temporary image name exist
+        if ($temporaryImageName) {
+            try {
+                $imagePath = $this->fileUploadService->saveFile($request->input('file_name'), 'links_images');
+                if ($link->content) {
+                    Storage::disk('public')->delete($link->content);
+                }
+            } catch (Exception $e) {
+                return redirect()->back()->withErrors($e->getMessage());
+            }
+        } else {
+            $imagePath = $link->image_path;
+        }
+
+        $link->update([
+            'description' => $validatedData['description'],
+            'image_path' => $imagePath,
+            'link_path' => $validatedData['link_path'],
+        ]);
+
+        return redirect()->route('links.index')->with('success', 'Lien mis à jour avec succès !');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public
-    function update(Request $request, $id)
-    {
-        // Update a specific QR code
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public
-    function destroy($id)
+    public function destroy($id)
     {
         // Delete a specific QR code
     }
