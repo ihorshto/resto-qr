@@ -23,9 +23,9 @@ class LinkUpdateRequest extends FormRequest
     {
         return [
             'description' => 'required|string|max:255',
-            'link_path' => 'required|string|max:255',
+            'link_path' => 'required|url|max:255',
             'is_create_link' => 'nullable|boolean',  // Assuming it holds a boolean value (true/false)
-            'file_name' => 'required_if:is_create_link,on'
+            'file_name' => 'required_if:is_create_link,1'
         ];
     }
 
@@ -39,6 +39,7 @@ class LinkUpdateRequest extends FormRequest
             '*.required_if' => 'Le champ est obligatoire.',
             '*.string' => 'Le champ description doit être une chaîne de caractères.',
             '*.max' => 'Le champ description ne peut pas dépasser 255 caractères.',
+            'link_path.url' => 'Le champ doit être une URL valide.',
             'is_create_link.boolean' => 'Le champ is_create_link doit être vrai ou faux.',
         ];
     }
