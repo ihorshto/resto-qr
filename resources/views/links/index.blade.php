@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between">
         <x-title-subtitle-box title="Liste de liens" subtitle="Créer, modifier et suprimer des liens"/>
 
-        <a href="{{ route('links.create') }}" class="button-default bg-teal-500 text-white font-medium">
+        <a href="{{ route('links.create') }}" class="button-default bg-blue-light text-white font-medium">
             Créer
         </a>
     </div>
@@ -77,25 +77,22 @@
                                     <div class="my-1 border-t border-gray-200 dark:border-neutral-700"></div>
 
                                     <!-- Button Delete -->
-                                    <form action="{{route('links.destroy', $link)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button type="submit"
-                                                class="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-red-600 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-red-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-                                                data-hs-overlay="#hs-pro-chhdl">
-                                            <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
-                                                 height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M3 6h18"/>
-                                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                                                <line x1="10" x2="10" y1="11" y2="17"/>
-                                                <line x1="14" x2="14" y1="11" y2="17"/>
-                                            </svg>
-                                            Supprimer
-                                        </button>
-                                    </form>
+                                    <button type="button"
+                                            class="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-red-600 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-red-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                                            data-link-id="{{ $link->id }}"
+                                            onclick="openDeleteModal(this)"
+                                            data-hs-overlay="#hs-delete-link-modal">
+                                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
+                                             height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M3 6h18"/>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                            <line x1="10" x2="10" y1="11" y2="17"/>
+                                            <line x1="14" x2="14" y1="11" y2="17"/>
+                                        </svg>
+                                        Supprimer
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +101,36 @@
                 </div>
                 <!-- End Card -->
             @endforeach
+
+            <!--   Delete Modal   -->
+                <form id="delete-link-form" action="" method="POST">
+                @csrf
+                @method('DELETE')
+
+                {{--   Confirmation Modal   --}}
+                @include('components.modals.confirmation-modal', ['id' => 'hs-delete-link-modal', 'title' => 'Attention!!!', 'subtitle' => 'Voulez-vous vraiment supprimer ce lien ? ', 'slot' => ''])
+
+                <input type="hidden" name="link_id" id="link_id" value="0">
+            </form>
         @endif
     </div>
+
+
+    <script>
+        function openDeleteModal(button) {
+            const linkId = button.getAttribute('data-link-id');
+
+            // Validate linkId before using
+            if (!/^\d+$/.test(linkId)) {
+                console.error("Invalid link ID");
+                return;
+
+            }
+
+            // Update form action
+            const form = document.getElementById('delete-link-form');
+            form.action = `/links/${encodeURIComponent(linkId)}`;
+        }
+    </script>
 
 </x-app-layout>

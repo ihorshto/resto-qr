@@ -88,11 +88,17 @@ class UserLinkController extends Controller
     }
 
 
-    public function destroy(Request $request, UserLink $link)
+    public function destroy(UserLink $link)
     {
+        // Ensure the authenticated user owns the link
+        if ($link->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if ($link->image_path) {
             Storage::disk('public')->delete($link->image_path);
         }
+
         $link->delete();
 
         return redirect()->route('links.index')->with('success', 'Lien supprimé avec succès !');
