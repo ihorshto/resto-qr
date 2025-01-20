@@ -35,7 +35,7 @@ class UserQrCodeController extends Controller
             'title' => 'required|string|max:255'
         ]);
 
-        $qrcodeLink = "http://google.com";
+        $qrcodeLink = route('users.showLinks', ['user' => auth()->user()->id]); // Adjust the route name as needed
         $qrcodeImagePath = 'qr-codes/qr-code-' . auth()->user()->id . '.png';
 
         // Generate QR Code
@@ -49,7 +49,7 @@ class UserQrCodeController extends Controller
                 'qr_code_path' => $qrcodeImagePath // Save the file path
             ]);
 
-            return redirect()->route('qrcode.create', compact('qrcode'))->with('success', 'Qrcode crée avec succès !');
+            return redirect()->route('qrcode.index', compact('qrcode'))->with('success', 'Qrcode crée avec succès !');
         }
 
         return redirect()->route('qrcode.create')->with('error', 'Qrcode n\'est pas correct.');

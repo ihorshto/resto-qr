@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLinkController;
 use App\Http\Controllers\UserQrCodeController;
 use Illuminate\Support\Facades\Route;
@@ -27,5 +28,8 @@ Route::resource('links', UserLinkController::class);
 
 Route::resource('qrcode', UserQrCodeController::class);
 Route::post('links/uploadImage', [UserLinkController::class, 'uploadImage'])->name('links.uploadImage');
+
+// Links page
+Route::get('/users/{user}', [UserController::class, 'showLinks'])->name('users.showLinks');
 
 require __DIR__.'/auth.php';
