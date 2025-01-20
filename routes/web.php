@@ -32,4 +32,7 @@ Route::post('links/uploadImage', [UserLinkController::class, 'uploadImage'])->na
 // Links page
 Route::get('/users/{user}', [UserController::class, 'showLinks'])->name('users.showLinks');
 
+Route::get('/customize', [UserController::class, 'customizeLinksPage'])->name('users.customize');
+Route::post('/updateStyles', [UserController::class, 'updateStyles'])->name('users.updateStyles');
+
 require __DIR__.'/auth.php';

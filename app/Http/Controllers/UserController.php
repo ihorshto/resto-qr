@@ -13,4 +13,14 @@ class UserController extends Controller
 
         return view('showLinks', compact('links'));
     }
+
+    public function customizeLinksPage()
+    {
+        return view('customize');
+    }
+
+    public function updateStyles(Request $request)
+    {
+        dd($request);
+    }
 }
