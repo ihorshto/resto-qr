@@ -14,7 +14,8 @@ class FileUpload extends Component
     public $maxFilesize;
     public $singleton;
     public $acceptedFiles;
-    public function __construct($id, $url, $maxFiles, $maxFilesize, $singleton, $acceptedFiles)
+    public $fileUploadName;
+    public function __construct($id, $url, $maxFiles, $maxFilesize, $singleton, $acceptedFiles, $fileUploadName)
     {
         $this->id = $id;
         $this->url = $url;
@@ -22,6 +23,7 @@ class FileUpload extends Component
         $this->maxFilesize = $maxFilesize;
         $this->singleton = $singleton;
         $this->acceptedFiles = $acceptedFiles;
+        $this->fileUploadName = $fileUploadName;
     }
 
     /**

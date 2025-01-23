@@ -144,8 +144,8 @@
     </div>
 
     <div class="mt-4 space-y-2 empty:mt-0" data-hs-file-upload-previews=""></div>
-    <input type="text" name="file_name" id="file_name" class="hidden">
-    @error('file_name')
+    <input type="text" name="{{$fileUploadName}}" id="{{$fileUploadName}}" class="hidden">
+    @error($fileUploadName)
     <div class="text-red-500">{{ $message }}</div>
     @enderror
 </div>
@@ -153,7 +153,7 @@
 <script>
     window.addEventListener('load', () => {
         HSFileUpload.autoInit();
-        const fileName = document.getElementById("file_name");
+        const fileName = document.getElementById("{{$fileUploadName}}");
         const documentName = document.getElementById("document_name");
         const {element} = HSFileUpload.getInstance('#{{$id}}', true);
         const {dropzone} = element;

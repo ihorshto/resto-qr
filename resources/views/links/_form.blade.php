@@ -42,7 +42,8 @@
             id="hs-file-upload"
             url="{{ route('links.uploadImage') }}"
             maxFiles="1" maxFilesize="4" singleton="true" fileName="bg_image_name"
-            acceptedFiles="image/jpeg, image/jpg, image/png, image/gif, image/svg+xml, image/webp">
+            acceptedFiles="image/jpeg, image/jpg, image/png, image/gif, image/svg+xml, image/webp"
+            fileUploadName="file_name">
         </x-forms.file-upload>
     </div>
 
