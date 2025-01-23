@@ -14,6 +14,9 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    public const BACKGROUND_TYPE_COLOR = 0;
+    public const BACKGROUND_TYPE_IMAGE = 1;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -25,7 +28,8 @@ class User extends Authenticatable
         'password',
         'logo_path',
         'background_color',
-        'background_image_path'
+        'background_image_path',
+        'background_type'
     ];
 
     /**

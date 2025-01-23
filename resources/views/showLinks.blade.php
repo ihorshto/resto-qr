@@ -15,11 +15,17 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased">
-<div class="min-h-screen" style="background-color: #ffe7d3;">
-
+<div
+    class="min-h-screen"
+    @if ($user->background_type == \App\Models\User::BACKGROUND_TYPE_IMAGE)
+        style="background-image: url('/storage/{{ $user->background_image_path }}'); background-size: cover; background-repeat: no-repeat;"
+    @else
+        style="background-color: {{ $user->background_color }};"
+    @endif
+>
     @if($user->logo_path)
         <div class="sm:pt-10 pt-5">
-            <img src="/storage/{{$user->logo_path}}" class="mx-auto w-12 h-12" alt="Logo">
+            <img src="/storage/{{$user->logo_path}}" class="mx-auto sm:w-16 w-12 sm:h-16 h-12" alt="Logo">
         </div>
     @endif
 

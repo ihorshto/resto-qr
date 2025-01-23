@@ -23,16 +23,19 @@ class UserController extends Controller
 
     public function customizeLinksPage()
     {
-        return view('customize');
+        $user = auth()->user();
+        return view('customize', compact('user'));
     }
 
     public function updateStyles(Request $request)
     {
         $validated = $request->validate([
+            'background_type' => 'required|in:0,1',
             'background_color' => 'string|nullable',
             'logo_name' => 'string|nullable',
             'background_image_name' => 'string|nullable'
         ]);
+
 
         if ($validated['logo_name'] && $validated['logo_name'] != '') {
             $logoPath = $this->fileUploadService->saveFile($request->input('logo_name'), 'logo_images');
@@ -46,8 +49,9 @@ class UserController extends Controller
 
         auth()->user()->update([
             'logo_path' => $logoPath ?? auth()->user()->logo_path,
-            'background_color' => $backgroundColor ?? auth()->user()->background_image_path ,
-            'background_image_path' => $backgroundImagePath ?? auth()->user()->background_color,
+            'background_color' => $backgroundColor ?? auth()->user()->background_color ,
+            'background_image_path' => $backgroundImagePath ?? auth()->user()->background_image_path,
+            'background_type' => $validated['background_type']
         ]);
 
         return redirect()->route('users.customize')->with('success', 'Uodated !');
