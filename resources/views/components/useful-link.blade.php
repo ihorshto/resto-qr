@@ -1,5 +1,5 @@
 <div
-    class="mb-4 relative group bg-white border border-gray-200 -mt-px first:mt-0 first:rounded-t-xl last:rounded-b-xl dark:bg-neutral-900 dark:border-neutral-700">
+    class="sm:mb-4 mb-3 relative group bg-white border border-gray-200 -mt-px first:mt-0 first:rounded-t-xl last:rounded-b-xl dark:bg-neutral-900 dark:border-neutral-700">
     <a class="group p-3 flex items-center gap-x-4 group-first:rounded-t-xl group-last:rounded-b-xl hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
        target="_blank" href="{{$link->link_path}}">
         <div
