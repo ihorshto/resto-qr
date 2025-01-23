@@ -102,7 +102,7 @@ class FileUploadService
             throw new Exception('Erreur lors de l\'enregistrement du fichier');
         }
 
-        $this->cleanUpUserFolder($userId);
+//        $this->cleanUpUserFolder($userId);
 
         return $documentFilePath;
     }
