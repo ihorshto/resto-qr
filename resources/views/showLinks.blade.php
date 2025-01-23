@@ -17,7 +17,13 @@
 <body class="font-sans antialiased">
 <div class="min-h-screen" style="background-color: #ffe7d3;">
 
-    <div class="max-w-7xl mx-auto pt-10 px-5">
+    @if($user->logo_path)
+        <div class="sm:pt-10 pt-5">
+            <img src="/storage/{{$user->logo_path}}" class="mx-auto w-12 h-12" alt="Logo">
+        </div>
+    @endif
+
+    <div class="max-w-7xl mx-auto sm:pt-10 pt-5 sm:px-5 px-3">
         @foreach($links as $link)
             <!-- Card -->
             <x-useful-link :link="$link" :editMode="false" />
