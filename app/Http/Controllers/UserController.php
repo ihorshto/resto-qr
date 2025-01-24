@@ -54,6 +54,6 @@ class UserController extends Controller
             'background_type' => $validated['background_type']
         ]);
 
-        return redirect()->route('users.customize')->with('success', 'Uodated !');
+        return redirect()->route('users.customize')->with('success', 'La page est mis à jour.');
     }
 }

@@ -2,6 +2,14 @@
     <x-title-subtitle-box title="Personnaliser la page de liens"
                           subtitle="Changer le logo, l'image d'arrière-plan ou la couleur d'arrière-plan"/>
 
+    <!--   Alerts   -->
+    @if (session('success'))
+        <x-alerts.success-alert label="" text="{{ session('success') }}"/>
+    @endif
+    @foreach ($errors->all() as $error)
+        <x-alerts.error-alert label="" text="{{ $error }}"/>
+    @endforeach
+
     <form method="POST" action="{{route('users.updateStyles')}}" enctype="multipart/form-data">
         @csrf
         @method('POST')
