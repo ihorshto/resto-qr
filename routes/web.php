@@ -21,8 +21,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/qrcode', function () {
-    return view('qrcode.index');
+    return view('qrcode.show');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('qrcode/{qrcode}/openDocument', [UserQrCodeController::class, 'openDocument'])->name('qrcode.openDocument');
 
 Route::resource('links', UserLinkController::class);
 

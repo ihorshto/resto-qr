@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Document;
 use App\Models\UserDocument;
+use App\Models\UserQrCode;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -176,6 +177,39 @@ class FileUploadService
 
         // Save the minified content back to the file
         Storage::put($filePath, $minifiedSvg);
+    }
+
+    public function openFile($qrcode)
+    {
+        return $this->findFile($qrcode);
+    }
+
+
+    private function findFile($qrcode)
+    {
+        // Define the path to the file
+        $filePath = $qrcode->qr_code_path;
+        // Check if the file exists
+        if (!Storage::disk('public')->exists($filePath)) {
+            return redirect()->back()->withErrors("Le qr code n'existe pas.");
+        }
+
+        info('after');
+
+
+        // Generate a slugged title for the download filename
+        $titleSlug = $this->sanitizeFileName($qrcode->title);
+
+        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+        $filename = "{$titleSlug}.{$extension}";
+
+        // Set headers to display the file inline with the correct filename
+        $headers = [
+            'Content-Type' => Storage::disk('public')->mimeType($filePath),
+            'Content-Disposition' => "inline; filename=\"{$filename}\"",
+        ];
+
+        return response()->file(storage_path("app/public/{$filePath}"), $headers);
     }
 
 }

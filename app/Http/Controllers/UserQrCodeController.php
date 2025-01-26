@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserQrCode;
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -10,13 +11,19 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class UserQrCodeController extends Controller
 {
+    public $fileUploadService;
+
+    public function __construct(FileUploadService $fileUploadService)
+    {
+        $this->fileUploadService = $fileUploadService;
+    }
 
     public function index()
     {
         $qrcode = auth()->user()->qrcode()->first() ?? null;
 
-        if($qrcode) {
-            return view('qrcode.index', compact('qrcode'));
+        if ($qrcode) {
+            return view('qrcode.show', compact('qrcode'));
         } else {
             return redirect()->route('qrcode.create');
         }
@@ -55,21 +62,20 @@ class UserQrCodeController extends Controller
         return redirect()->route('qrcode.create')->with('error', 'Qrcode n\'est pas correct.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(UserQrCode $qrcode)
     {
-        // Display a specific QR code
+        return view('qrcode.show', compact('qrcode'));
+    }
+
+    public function openDocument(UserQrCode $qrcode): \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\RedirectResponse
+    {
+        return $this->fileUploadService->openFile($qrcode);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -80,8 +86,8 @@ class UserQrCodeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -92,7 +98,7 @@ class UserQrCodeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
